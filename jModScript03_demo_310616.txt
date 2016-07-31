@@ -1,0 +1,238 @@
+Point kinetic reactor
+------------------------------------------------------------------------
+cd c:/Users/drsdl/Documents/Dymola/
+
+import matplotlib.pyplot as plt
+from pymodelica import compile_fmu
+from pyfmi import load_fmu
+
+model_name = 'Nuclear.BOOTSTRAP.Bootstrap008'
+mofile = 'Nuclear.mo'
+
+fmu_name = compile_fmu(model_name,mofile)
+myfmu = load_fmu(fmu_name)
+
+opts=myfmu.simulate_options()
+opts['solver']='CVode'
+opts['CVode_options']['discr'] = 'BDF'
+opts['CVode_options']['iter'] = 'Newton'
+opts['CVode_options']['rtol'] = 1e-6
+opts['initialize']='true'
+res = myfmu.simulate(final_time=20, options=opts)
+
+
+v1 = res['RPower']
+t = res['time']
+plt.figure(1)
+plt.plot(t,v1)
+plt.title('r_power')
+plt.xlabel('t[s]')
+plt.show()
+
+
+Single Fluid Reactor
+------------------------------------------------------------------------
+cd c:/Users/drsdl/Documents/Dymola/
+
+import matplotlib.pyplot as plt
+from pymodelica import compile_fmu
+from pyfmi import load_fmu
+
+model_name = 'Nuclear.SingleFluidMoltenSaltReactor'
+mofile = 'Nuclear.mo'
+
+fmu_name = compile_fmu(model_name,mofile)
+myfmu = load_fmu(fmu_name)
+
+opts=myfmu.simulate_options()
+opts['solver']='CVode'
+opts['CVode_options']['discr'] = 'BDF'
+opts['CVode_options']['iter'] = 'Newton'
+opts['CVode_options']['rtol'] = 1e-6
+opts['initialize']='true'
+res = myfmu.simulate(final_time=2000, options=opts)
+
+
+v1 = res['r_power']
+t = res['time']
+plt.figure(1)
+plt.plot(t,v1)
+plt.title('r_power')
+plt.xlabel('t[s]')
+plt.show()
+
+
+druck1 = res['reactor.port_a.p']
+druck2 = res['hotleg.port_a.p']
+druck3 = res['HEX.port_a2.p']
+druck4 = res['coldleg.port_a.p']
+t = res['time']
+
+plt.figure(1)
+plt.subplot(2,2,1)
+plt.plot(t,druck1)
+plt.title('reactor.port_a.p')
+plt.subplot(2,2,2)
+plt.plot(t,druck2)
+plt.title('hotleg.port_a.p')
+plt.subplot(2,2,3)
+plt.plot(t,druck3)
+plt.title('HEX.port_a.p')
+plt.xlabel('t[s]')
+plt.subplot(2,2,4)
+plt.plot(t,druck4)
+plt.title('coldleg.port_a.p')
+plt.xlabel('t[s]')
+plt.show()
+
+
+
+temp1 = res['reactor.mediums[1].T']
+temp2 = res['hotleg.mediums[1].T']
+temp3 = res['HEX.pipe_2.mediums[1].T']
+temp4 = res['coldleg.mediums[1].T']
+t = res['time']
+
+plt.figure(1)
+plt.subplot(2,2,1)
+plt.plot(t,temp1)
+plt.title('reactor.mediums[1].T')
+plt.subplot(2,2,2)
+plt.plot(t,temp2)
+plt.title('hotleg.mediums[1].T')
+plt.subplot(2,2,3)
+plt.plot(t,temp3)
+plt.title('HEX.pipe_2.mediums[1].T')
+plt.xlabel('t[s]')
+plt.subplot(2,2,4)
+plt.plot(t,temp4)
+plt.title('coldleg.mediums[1].T')
+plt.xlabel('t[s]')
+plt.show()
+
+
+
+
+
+tank1 = res['tank.level']
+pump1 = res['m_flow']
+t = res['time']
+
+plt.figure(1)
+plt.subplot(2,1,1)
+plt.plot(t,tank1)
+plt.title('tank.level')
+plt.grid()
+plt.subplot(2,1,2)
+plt.plot(t,pump1)
+plt.title('pump.m_flow')
+plt.xlabel('t[s]')
+plt.grid()
+plt.show()
+
+
+
+Dual Fluid Reactor
+------------------------------------------------------------------------
+cd c:/Users/drsdl/Documents/Dymola/
+
+import matplotlib.pyplot as plt
+from pymodelica import compile_fmu
+from pyfmi import load_fmu
+
+model_name = 'Nuclear.DualFluidMoltenSaltReactor'
+mofile = 'Nuclear.mo'
+
+fmu_name = compile_fmu(model_name,mofile)
+myfmu = load_fmu(fmu_name)
+
+opts=myfmu.simulate_options()
+opts['solver']='CVode'
+opts['CVode_options']['discr'] = 'BDF'
+opts['CVode_options']['iter'] = 'Newton'
+opts['CVode_options']['rtol'] = 1e-6
+opts['initialize']='true'
+res = myfmu.simulate(final_time=2000, options=opts)
+
+
+v1 = res['r_power']
+t = res['time']
+plt.figure(1)
+plt.plot(t,v1)
+plt.title('r_power')
+plt.xlabel('t[s]')
+plt.show()
+
+
+druck1 = res['reactor.port_a.p']
+druck2 = res['hotleg.port_a.p']
+druck3 = res['HEX.port_a2.p']
+druck4 = res['coldleg.port_a.p']
+t = res['time']
+
+plt.figure(1)
+plt.subplot(2,2,1)
+plt.plot(t,druck1)
+plt.title('reactor.port_a.p')
+plt.subplot(2,2,2)
+plt.plot(t,druck2)
+plt.title('hotleg.port_a.p')
+plt.subplot(2,2,3)
+plt.plot(t,druck3)
+plt.title('HEX.port_a.p')
+plt.xlabel('t[s]')
+plt.subplot(2,2,4)
+plt.plot(t,druck4)
+plt.title('coldleg.port_a.p')
+plt.xlabel('t[s]')
+plt.show()
+
+
+
+f1 = res['m_flow']
+f2 = res['m_flow2nd']
+t = res['time']
+
+plt.figure(1)
+plt.plot(t,f1)
+plt.plot(t,f2)
+plt.title('m_flow')
+plt.grid()
+plt.xlabel('t[s]')
+plt.grid()
+plt.show()
+
+
+d1 = res['T_hotleg']
+d2 = res['T_coldleg']
+d3 = res['T_2nd']
+d4 = res['T_cold_2nd']
+d5 = res['reactor2nd.mediums[1].T']
+d6 = res['reactor2nd.mediums[8].T']
+t = res['time']
+
+plt.figure(1)
+plt.plot(t,d1)
+plt.plot(t,d2)
+plt.plot(t,d3)
+plt.plot(t,d4)
+plt.plot(t,d5)
+plt.plot(t,d6)
+plt.title('T(K)')
+plt.grid()
+plt.xlabel('t[s]')
+plt.grid()
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
