@@ -13,8 +13,27 @@ For the details of the models please have a look at the comment block at the sta
 
 Two video tutorials have been produced which can be accessed by the following links and which help you to start building on the Nuclear.mo models:
 
+Tutorial 01: Very Basic Introduction
 https://s3-eu-west-1.amazonaws.com/ms-01-s3bucket/DFR_tutorial_part01.html
+
+Tutorial 02: Simulate with JModelica
 https://s3-eu-west-1.amazonaws.com/ms-01-s3bucket/DFR_tutorial_part02.html
+
+Some useful links:
+
+Modelica Standard: https://www.modelica.org/
+
+Modelica by Example: http://book.xogeny.com/
+
+JModelica: http://www.jmodelica.org/
+
+OpenModelica: https://www.openmodelica.org/
+
+Dymola: http://www.3ds.com/products-services/catia/products/dymola
+
+
+
+
 
 
 
